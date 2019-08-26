@@ -1,12 +1,10 @@
 ﻿using Api.MongoDb.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.MongoDb.Services.Interfaces
 {
-    public interface IBookService
+    public interface IService
     {
         Task<List<Book>> Get();
         Task<Book> Get(string id);

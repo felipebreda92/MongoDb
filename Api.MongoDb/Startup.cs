@@ -1,7 +1,6 @@
 ﻿using Api.MongoDb.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,10 +21,6 @@ namespace Api.MongoDb
             services.AddDependencyInjectionConfig();
             services.AddApiConfiguration(Configuration);
             services.AddLoggerConfig();
-
-            services.AddMvc()
-                .AddJsonOptions(options => options.UseMemberCasing())
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,9 +37,7 @@ namespace Api.MongoDb
             }
 
             app.UseLoggerConfig(Configuration);
-
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseApiConfiguration();
         }
     }
 }

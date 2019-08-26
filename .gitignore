@@ -330,4 +330,4 @@ ASALocalRun/
 .mfractor/
 
 # appSettings.json by Breda
-*.json
+appsettings.json

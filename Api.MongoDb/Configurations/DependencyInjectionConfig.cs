@@ -13,7 +13,7 @@ namespace Api.MongoDb.Configurations
             services.AddSingleton<IBookstoreDatabaseSettings>(sp =>
                                         sp.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
 
-            services.AddSingleton<IBookService, BookService>();
+            services.AddSingleton<IService, BookService>();
 
 
             return services;

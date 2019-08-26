@@ -11,16 +11,16 @@ namespace Api.MongoDb.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly IBookService _bookService;
+        private readonly IService _bookService;
         private readonly ILogger _logger;
 
-        public BooksController(IBookService bookService, ILogger logger)
+        public BooksController(IService bookService, ILogger logger)
         {
             _bookService = bookService;
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("obter-todos")]
         public async Task<ActionResult<List<Book>>> Get()
         {
             var books = await _bookService.Get();
@@ -30,7 +30,7 @@ namespace Api.MongoDb.Controllers
             return books;
         }
 
-        [HttpGet("{id:length(24)}", Name = "GetBook")]
+        [HttpGet("obter-por-id/{id:length(24)}", Name = "GetBook")]
         public async Task<ActionResult<Book>> Get(string id)
         {
             var book = await _bookService.Get(id);
@@ -43,7 +43,7 @@ namespace Api.MongoDb.Controllers
             return book;
         }
 
-        [HttpPost]
+        [HttpPost("inserir")]
         public async Task<ActionResult<Book>> Create(Book book)
         {
             await _bookService.Create(book);
@@ -51,7 +51,7 @@ namespace Api.MongoDb.Controllers
             return CreatedAtRoute("GetBook", new { id = book.Id.ToString() }, book);
         }
 
-        [HttpPut("{id:length(24)}")]
+        [HttpPut("autualizar/{id:length(24)}")]
         public async Task<IActionResult> Update([FromQuery]string id, Book bookIn)
         {
             var book = await _bookService.Get(id);
@@ -66,7 +66,7 @@ namespace Api.MongoDb.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete("deletar/{id:length(24)}")]
         public async Task<IActionResult> Delete(string id)
         {
             var book = await _bookService.Get(id);

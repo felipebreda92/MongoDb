@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Api.MongoDb.Services
 {
-    public class BookService : IBookService
+    public class BookService : IService
     {
         private readonly IMongoCollection<Book> _books;
 
