@@ -1,4 +1,6 @@
-﻿using Api.MongoDb.Models;
+﻿using Api.MongoDb.Interfaces;
+using Api.MongoDb.Models;
+using Api.MongoDb.Notificacoes;
 using Api.MongoDb.Services;
 using Api.MongoDb.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,7 @@ namespace Api.MongoDb.Configurations
                                         sp.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
 
             services.AddSingleton<IService, BookService>();
+            services.AddScoped<INotificador, Notificador>();
 
 
             return services;

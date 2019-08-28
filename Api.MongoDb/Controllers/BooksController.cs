@@ -1,4 +1,5 @@
-﻿using Api.MongoDb.Models;
+﻿using Api.MongoDb.Interfaces;
+using Api.MongoDb.Models;
 using Api.MongoDb.Services.Interfaces;
 using KissLog;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +10,14 @@ namespace Api.MongoDb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BooksController : ControllerBase
+    public class BooksController : MainController
     {
         private readonly IService _bookService;
         private readonly ILogger _logger;
 
-        public BooksController(IService bookService, ILogger logger)
+        public BooksController(IService bookService
+                               ,ILogger logger
+                               ,INotificador notificador) : base(notificador)
         {
             _bookService = bookService;
             _logger = logger;
@@ -27,7 +30,7 @@ namespace Api.MongoDb.Controllers
 
             _logger.Info($"Quantidade de registros recuperados: {books.Count}");
 
-            return books;
+            return CustomResponse(books);
         }
 
         [HttpGet("obter-por-id/{id:length(24)}", Name = "GetBook")]
@@ -37,10 +40,10 @@ namespace Api.MongoDb.Controllers
 
             if (book == null)
             {
-                return NotFound();
+                return CustomResponse();
             }
 
-            return book;
+            return CustomResponse(book);
         }
 
         [HttpPost("inserir")]
@@ -48,7 +51,7 @@ namespace Api.MongoDb.Controllers
         {
             await _bookService.Create(book);
 
-            return CreatedAtRoute("GetBook", new { id = book.Id.ToString() }, book);
+            return CustomResponse(book);
         }
 
         [HttpPut("autualizar/{id:length(24)}")]
@@ -58,7 +61,7 @@ namespace Api.MongoDb.Controllers
 
             if (book == null)
             {
-                return NotFound();
+                return CustomResponse();
             }
 
             await _bookService.Update(id, bookIn);
@@ -73,7 +76,7 @@ namespace Api.MongoDb.Controllers
 
             if (book == null)
             {
-                return NotFound();
+                return CustomResponse();
             }
 
             await _bookService.Remove(book.Id);

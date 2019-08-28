@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 
 namespace Api.MongoDb.Models
 {
-    public class Book
+    public class Book : Entity
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
+       
         [BsonElement("Name")]
         [JsonProperty("Name")]
         public string BookName { get; set; }

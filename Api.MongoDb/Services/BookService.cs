@@ -1,4 +1,5 @@
-﻿using Api.MongoDb.Models;
+﻿using Api.MongoDb.Interfaces;
+using Api.MongoDb.Models;
 using Api.MongoDb.Services.Interfaces;
 using MongoDB.Driver;
 using System;
@@ -8,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace Api.MongoDb.Services
 {
-    public class BookService : IService
+    public class BookService : BaseService, IService
     {
         private readonly IMongoCollection<Book> _books;
 
-        public BookService(IBookstoreDatabaseSettings settings)
+        public BookService(IBookstoreDatabaseSettings settings
+                           , INotificador notificador) : base(notificador)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
